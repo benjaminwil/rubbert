@@ -1,0 +1,10 @@
+DRAGONRUBY_PROJECT_BIN="$(dirname "$(readlink -f "$0")")"
+DRAGONRUBY_PROJECT_ROOT="$(dirname "$DRAGONRUBY_PROJECT_BIN")"
+
+env_file="$DRAGONRUBY_PROJECT_ROOT/.env"
+if [ -f "$env_file" ]
+then
+    source "$env_file"
+else
+    DRAGONRUBY_EXEC=$(which dragonruby)
+fi
