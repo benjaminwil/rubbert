@@ -120,23 +120,22 @@ def test_world_tile_generation_orthodox args, assert
                     tile_size: 50,
                     rows: [2, 5, 99]
 
-  assert.equal! world.tile_coords, [[ 0, 50], [ 50, 50],
-                                    [0, 100], [50, 100]]
+  assert.equal! world.tile_coords, [[0,  0], [50,  0],
+                                    [0, 50], [50, 50]]
 
   world.render_tiles! args
 
-  assert.equal! world.tiles.count, 4
-  puts world.tiles
   assert.true! world.tiles.all? { |tile| tile.is_a? Tile }
+  assert.equal! world.tiles.count, 4
 end
 
 def test_world_tile_generation_unorthodox args, assert
-  new_world = World.new screen_width: 100,
+  world = World.new screen_width: 100,
                     screen_height: 100,
                     tile_size: 60,
                     rows: [2]
 
-  assert.equal! new_world.tile_coords, [[20, 50]]
+  assert.equal! world.tile_coords, [[20, 20]]
 end
 
 def test_world_tile_generation_centered args, assert
