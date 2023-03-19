@@ -14,10 +14,11 @@ class Tile
   def initialize cursor_x:,
                  cursor_y:,
                  x: 0,
-                 y: 0
+                 y: 0,
+                 tile_size: LENGTH
     @cx = cursor_x
     @cy = cursor_y
-    @x, @y, @w, @h = x, y, LENGTH, LENGTH
+    @x, @y, @w, @h = x, y, tile_size, tile_size
   end
 
   def render! args
@@ -29,17 +30,17 @@ class Tile
   private
 
   def east_tile
-    x_pos, y_pos = x + U.center_point(LENGTH), y - U.center_point(LENGTH)
-    [x_pos, y_pos, U.center_point(LENGTH), LENGTH, SPRITES.east]
+    x_pos, y_pos = x + U.center_point(w), y - U.center_point(h)
+    [x_pos, y_pos, U.center_point(w), h, SPRITES.east]
   end
 
   def top_tile
-    [x, y, LENGTH, LENGTH, SPRITES.top]
+    [x, y, w, h, SPRITES.top]
   end
 
   def west_tile
-    x_pos, y_pos = x.to_i, y - U.center_point(LENGTH)
-    [x_pos, y_pos, U.center_point(LENGTH), LENGTH, SPRITES.west]
+    x_pos, y_pos = x.to_i, y - U.center_point(h)
+    [x_pos, y_pos, U.center_point(w), h, SPRITES.west]
   end
 end
 

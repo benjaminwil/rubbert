@@ -13,25 +13,30 @@ class World
                  screen_width:,
                  screen_height:,
                  tile_size: 64,
-                 rows: []
+                 rows: [],
+                 holes: []
+
     @background_colour = background_colour
     @screen_width = screen_width
     @screen_height = screen_height
     @tile_size = tile_size
+
     @rows = validated_rows(rows)
+    @holes = validated_holes(holes)
 
     @tiles = []
   end
 
   def render_tiles! args
-    tile_coords.map { |x, y|
+    tile_coords.each do |x, y|
       tile = Tile.new cursor_x: args.inputs.mouse.x,
                       cursor_y: args.inputs.mouse.y,
                       x: x,
-                      y: y
+                      y: y,
+                      tile_size: tile_size
       tiles << tile
       tile.render! args
-    }
+    end
   end
 
   def set_background_colour! args
@@ -146,4 +151,3 @@ def test_world_tile_generation_centered args, assert
 
   assert.equal! world.tile_coords, [[5, 5]]
 end
-
