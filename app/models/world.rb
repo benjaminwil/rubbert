@@ -1,11 +1,13 @@
 require "app/models/tile.rb"
+require "app/utilities.rb"
 
 class World
   attr_accessor :background_colour,
                 :screen_width,
                 :screen_height,
                 :tile_size,
-                :rows
+                :rows,
+                :holes
 
   attr_accessor :tiles
 
@@ -50,15 +52,26 @@ class World
       row_width = column_size * tile_size
 
       (0...column_size).to_a.map { |x_position|
-        [
-          x_for(x_position, width: row_width),
-          y_for(y_position, height: column_height)
-        ]
+        unless hole? x_position, y_position
+          [
+            x_for(x_position, width: row_width),
+            y_for(y_position, height: column_height)
+          ]
+        end
       }
-    }
+    }.compact
   end
 
   private
+
+  def hole? col_index, row_index
+    holes[row_index]&.include?(col_index) || false
+  end
+
+  def validated_holes holes
+    holes = holes[0...rows.count].reverse
+    holes.map { |row| row && row.map { |x_position| x_position - 1 } }
+  end
 
   def validated_rows rows
     max_width, max_height =
@@ -119,11 +132,11 @@ def test_world_dimensions_unorthodox args, assert
   assert.equal! new_world.rows, [1]
 end
 
-def test_world_tile_generation_orthodox args, assert
+def test_world_tile_generation_convenient_tile_size args, assert
   world = World.new screen_width: 100,
                     screen_height: 100,
                     tile_size: 50,
-                    rows: [2, 5, 99]
+                    rows: [2, 999, 999]
 
   assert.equal! world.tile_coords, [[0,  0], [50,  0],
                                     [0, 50], [50, 50]]
@@ -134,13 +147,24 @@ def test_world_tile_generation_orthodox args, assert
   assert.equal! world.tiles.count, 4
 end
 
-def test_world_tile_generation_unorthodox args, assert
+def test_world_tile_generation_inconvenient_tile_size args, assert
   world = World.new screen_width: 100,
                     screen_height: 100,
                     tile_size: 60,
                     rows: [2]
 
   assert.equal! world.tile_coords, [[20, 20]]
+end
+
+def test_world_tile_generation_with_holes args, assert
+  world = World.new screen_width: 100,
+                    screen_height: 100,
+                    tile_size: 50,
+                    rows: [2, 2],
+                    holes: [[1], [2]]
+
+  assert.equal! world.tile_coords, [[50,  0],
+                                    [ 0, 50]]
 end
 
 def test_world_tile_generation_centered args, assert
