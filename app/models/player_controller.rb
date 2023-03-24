@@ -62,6 +62,10 @@ class PlayerController
     nav.merge! INITIAL_NAV_STATE
   end
 
+  def fall!
+    player.fallen!
+  end
+
   def go(nav:, nav_direction:, tick_count:, x_range:, y_range:)
     return unless nav_direction
     return unless within_threshold?(nav_direction, tick_count: tick_count)
@@ -72,6 +76,9 @@ class PlayerController
 
     if candidate
       move! x: candidate.x, y: candidate.y
+    else
+      move! x: x_range.to_a.max, y: y_range.to_a.max
+      fall!
     end
   end
 
