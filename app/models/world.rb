@@ -59,7 +59,7 @@ class World
           ]
         end
       }
-    }.compact
+    }.compact.sort_by { |x, y| [y, x] }
   end
 
   private
@@ -163,8 +163,8 @@ def test_world_tile_generation_with_holes args, assert
                     rows: [2, 2],
                     holes: [[1], [2]]
 
-  assert.equal! world.tile_coords, [[50,  0],
-                                    [ 0, 50]]
+  assert.equal! world.tile_coords, [[ 0,  0],
+                                    [50, 50]]
 end
 
 def test_world_tile_generation_centered args, assert
