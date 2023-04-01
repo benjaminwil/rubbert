@@ -2,18 +2,4 @@
 
 source "$(dirname "$(readlink -f "$0")")/_load_env"
 
-this_script=$(readlink -f "$0")
-candidate_test_files=$(grep -rl "def test_" "$DRAGONRUBY_PROJECT_ROOT")
-
-while read -r file_path; do
-    # If the file path is to this script, don't try to run DragonRuby.
-    #
-    [ "$file_path" = "$this_script" ] && continue
-
-    # Otherwise, use the relative file path from the project root to run tests.
-    #
-    relative_file_path=${file_path/${DRAGONRUBY_PROJECT_ROOT}\///}
-    command "$DRAGONRUBY_EXEC" "$DRAGONRUBY_PROJECT_ROOT" --test "$relative_file_path"
-done <<EOF
-$candidate_test_files
-EOF
+command "$DRAGONRUBY_EXEC" "$DRAGONRUBY_PROJECT_ROOT" --test app/tests.rb
