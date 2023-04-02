@@ -1,10 +1,25 @@
+#!/usr/bin/env sh
+
 DRAGONRUBY_PROJECT_BIN="$(dirname "$(readlink -f "$0")")"
 DRAGONRUBY_PROJECT_ROOT="$(dirname "$DRAGONRUBY_PROJECT_BIN")"
 
+# You can create an `.env` file in the project root directory and set an
+# environment variable, `DRAGONRUBY_EXEC`, to the path of another `dragonruby`
+# binary to bypass the binary committed to this codebase.
+#
 env_file="$DRAGONRUBY_PROJECT_ROOT/.env"
 if [ -f "$env_file" ]
 then
     source "$env_file"
 else
-    DRAGONRUBY_EXEC=$(which dragonruby)
+    normalized_ostype="$(uname | tr '[:upper:]' '[:lower:]')"
+    case $normalized_ostype in
+        cygwin*)  arch="windows" ;;
+        darwin*)  arch="macos" ;;
+        linux*)   arch="linux" ;;
+        msys*)    arch="windows" ;;
+        *)        arch="unknown" ;;
+    esac
+
+    DRAGONRUBY_EXEC="$DRAGONRUBY_PROJECT_BIN/dragonruby-37cdc782d-$arch"
 fi
