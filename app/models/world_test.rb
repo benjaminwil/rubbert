@@ -48,7 +48,7 @@ def test_world_tile_generation_convenient_tile_size args, assert
   assert.equal! world.tile_coords, [[0,  0], [50,  0],
                                     [0, 50], [50, 50]]
 
-  world.render_tiles! args
+  world.render! args
 
   assert.true! world.tiles.all? { |tile| tile.is_a? Tile }
   assert.equal! world.tiles.count, 4
@@ -81,4 +81,15 @@ def test_world_tile_generation_centered args, assert
                     rows: [1]
 
   assert.equal! world.tile_coords, [[5, 5]]
+end
+
+def test_world_raise_if_not_tileable args, assert
+  World.new screen_width: 1,
+            screen_height: 1,
+            tile_size: 10,
+            rows: [1]
+rescue Exception => error
+  assert.equal! error.class,
+                RuntimeError,
+                "No tiles to render. Fix your world parameters."
 end

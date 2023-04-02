@@ -26,23 +26,16 @@ class World
     @rows = validated_rows(rows)
     @holes = validated_holes(holes)
 
-    @tiles = []
+    @tiles = [].tap { |array|
+      tile_coords.each { |x, y|
+        array << Tile.new(x: x, y: y, tile_size: tile_size)
+      }
+    }
   end
 
-  def render_tiles! args
-    tile_coords.each do |x, y|
-      tile = Tile.new cursor_x: args.inputs.mouse.x,
-                      cursor_y: args.inputs.mouse.y,
-                      x: x,
-                      y: y,
-                      tile_size: tile_size
-      tiles << tile
-      tile.render! args
-    end
-  end
-
-  def set_background_colour! args
-    args.outputs.background_color = background_colour
+  def render! args
+    set_background_colour! args
+    render_tiles! args
   end
 
   def tile_coords
@@ -64,6 +57,14 @@ class World
 
   private
 
+  def render_tiles! args
+    tiles.each { |tile| tile.render! args }
+  end
+
+  def set_background_colour! args
+    args.outputs.background_color = background_colour
+  end
+
   def hole? col_index, row_index
     holes[row_index]&.include?(col_index) || false
   end
@@ -78,8 +79,12 @@ class World
       [screen_width, screen_height].map { |n| (n / tile_size).to_i }
 
     rows = rows[0...max_width] if rows.count > max_width
-    rows.reverse
-        .map { |columns| columns <= max_height ? columns : max_height }
+    rows = rows.reverse
+               .map { |columns| columns <= max_height ? columns : max_height }
+
+    raise "No tiles to render. Fix your world parameters." if rows.none?
+
+    rows
   end
 
   def x_for(index, width:)

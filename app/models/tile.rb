@@ -4,20 +4,9 @@ class Tile
               top:  "sprites/top.png",
               west: "sprites/west.png" }
 
-  attr_accessor :cx,
-                :cy,
-                :x,
-                :y,
-                :w,
-                :h
+  attr_accessor :x, :y, :w, :h
 
-  def initialize cursor_x:,
-                 cursor_y:,
-                 x: 0,
-                 y: 0,
-                 tile_size: LENGTH
-    @cx = cursor_x
-    @cy = cursor_y
+  def initialize x: 0, y: 0, tile_size: LENGTH
     @x, @y, @w, @h = x, y, tile_size, tile_size
   end
 
