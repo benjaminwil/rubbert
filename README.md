@@ -5,6 +5,11 @@ is my first campaign in video game development. I'm using this project to start
 to learn about the kinds of problems game developers must face when starting a
 greenfield project.
 
+[![Current CI status][ci-status-badge]][ci-workflow-yml]
+
+[ci-status-badge]: https://github.com/benjaminwil/rubbert/actions/workflows/ci.yml/badge.svg
+[ci-workflow-yml]: https://github.com/benjaminwil/rubbert/actions/workflows/ci.yml
+
 ## Quick links
 
 - [DragonRuby][dr] ([documentation][dr-docs])

@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 
-source "$(dirname "$(readlink -f "$0")")/_load_env"
+. "$(dirname "$(readlink -f "$0")")/_load_env"
 
 command "$DRAGONRUBY_EXEC" "$DRAGONRUBY_PROJECT_ROOT"

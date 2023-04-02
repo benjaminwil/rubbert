@@ -1,0 +1,29 @@
+name: Tests
+
+env:
+  # The following SDL environment variables let us make DragonRuby headless.
+  # For more information, see SDL's documentation:
+  #
+  #   https://www.libsdl.org/release/SDL-1.2.15/docs/html/sdlenvvars.html
+  #
+  SDL_AUDIODRIVER: dummy
+  SDL_VIDEODRIVER: dummy
+
+jobs:
+  run_test_suite:
+    name: Run test suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run the test suite
+        run: bin/tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+  workflow_dispatch:
