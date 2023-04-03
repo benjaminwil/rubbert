@@ -14,17 +14,17 @@ def test_player_position args, assert
   assert.equal! [player.x, player.y], [0, 0]
 
   T.before_tick args do
-    test_level.execute!
+    test_level.tick!
     args.inputs.keyboard.key_down.up = true
   end
 
   T.before_tick args, count: 5 do
-    test_level.execute!
+    test_level.tick!
     args.inputs.keyboard.key_down.up = false
   end
 
   T.before_tick args do
-    test_level.execute!
+    test_level.tick!
     args.inputs.keyboard.key_up.up = true
   end
 

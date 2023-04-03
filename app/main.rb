@@ -16,5 +16,5 @@ end
 def tick args
   enable_reset_hotkey! args
 
-  level_one(args).execute!
+  level_one(args).tick!
 end
