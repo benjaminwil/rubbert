@@ -24,7 +24,7 @@ class MockPlayer < Player
   end
 end
 
-class MockController < PlayerController
+class MockController < Controller
   attr_accessor :controlling
 
   def initialize _hash

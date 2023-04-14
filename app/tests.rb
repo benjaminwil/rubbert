@@ -12,6 +12,6 @@ class T
   end
 end
 
-require "app/models/player_controller_test.rb"
-require "app/models/world_test.rb"
+require "app/models/controller_test.rb"
 require "app/models/level_test.rb"
+require "app/models/world_test.rb"

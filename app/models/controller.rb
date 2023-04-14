@@ -1,4 +1,4 @@
-class PlayerController
+class Controller
   INITIAL_NAV_STATE = {up: nil, right: nil, down: nil, left: nil}
 
   attr_accessor :player, :world

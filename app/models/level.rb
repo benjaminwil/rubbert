@@ -1,6 +1,6 @@
 require "app/models/world.rb"
 require "app/models/player.rb"
-require "app/models/player_controller.rb"
+require "app/models/controller.rb"
 
 class Level
   class << self
@@ -8,7 +8,7 @@ class Level
                   oppo: {
                     world_class: World,
                     player_class: Player,
-                    controller_class: PlayerController
+                    controller_class: Controller
                   },
                   world_params: {
                     screen_width: args.grid.right,
